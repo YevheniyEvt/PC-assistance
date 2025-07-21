@@ -64,3 +64,4 @@ htmlcov/
 # my folder
 notebooks/
 AI.egg-info
+bookmarks/*
