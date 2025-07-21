@@ -41,7 +41,6 @@ router_builder.add_conditional_edges(
 )
 router_builder.add_edge("create youtube search", "open youtube")
 router_builder.add_edge("get specific url", "open specific url")
-router_builder.add_edge("get bookmarks url", "open url from bookmarks")
 router_builder.add_edge("open specific url", END)
 router_builder.add_edge("open youtube", END)
 router_builder.add_edge("open url from bookmarks", END)

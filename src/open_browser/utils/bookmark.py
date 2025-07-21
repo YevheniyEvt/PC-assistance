@@ -61,7 +61,12 @@ class Url(ChildrenBase):
         return self.open(new=2)
     
     def curl(self):
-        return requests.get(url=self.url)
+        try:
+            requests.get(url=self.url)
+        except requests.exceptions.ConnectionError:
+            return False
+        else:
+            return True
 
 
 class Folder(ChildrenBase):

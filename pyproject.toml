@@ -12,6 +12,7 @@ dependencies = [
     "python-dotenv",
     "rich",
     "langgraph-cli[inmem]",
+    "streamlit"
 ]
 
 [build-system]
@@ -24,7 +25,7 @@ packages = ["english", "developer_chatbot", "open_browser"]
 [tool.setuptools.package-dir]
 "english" = "src/english"
 "developer_chatbot" = "src/developer_chatbot"
-"developer_chatbot" = "src/open_browser"
+"open_browser" = "src/open_browser"
 
 [tool.setuptools.package-data]
 "*" = ["py.typed"]

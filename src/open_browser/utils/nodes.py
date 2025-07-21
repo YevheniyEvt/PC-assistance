@@ -73,17 +73,16 @@ def open_specific_url(state: WebBrowser) -> WebBrowser:
     """Open specific url from user`s list in browser"""
 
     url: Url = state["specific_url"]
-    try:
-        url.curl()
-    except ConnectionError:
+
+    if not url.curl():
         if url.url.startswith(LOCAL_HOST):
             os.startfile(PATH_SCRIPT_RUN_LOCAL_HOST)
             time.sleep(3)
         else:
             ai_msg = AIMessage(content=f"Your url: {url.url} doesn't work, check it")
             return {"messages": [ai_msg]}
-    finally:
-        url.open_new()
+    url.open_new()
+    
     
 def create_youtube_search(state: WebBrowser) -> WebBrowser:
     """Create tags for searching in youtube from user's request"""
@@ -116,14 +115,14 @@ def get_bookmarks_url(state: WebBrowser) ->WebBrowser:
     sys_msg = SystemMessage(content=FIND_FOLDER_NAME_PROMPT.format(child_folders=folders_name))
     human_msg = state["messages"][-1]
     decision = llm.with_structured_output(Bookmarks).invoke([sys_msg, human_msg])
-
+    folder_with_url = None
     for folder in folders:
             if folder.name.lower() == decision.folder_name.lower():
                 folder_with_url = folder
    
     if decision.folder_id is None or folder_with_url is None:
         ai_msg = f"Sorry, folder or url: {decision.folder_name}  does not exist. Are you sure is it you are looking for?"
-        return {"messages": AIMessage(content=ai_msg), "bookmark_folder": None}
+        return {"messages": AIMessage(content=ai_msg), "bookmark_folder": folder_with_url}
     else:
         return {"bookmark_folder": folder_with_url}
 
@@ -139,7 +138,7 @@ def bookmark_folder_exist(state: WebBrowser) ->str:
 
 def open_from_bookmarks(state: WebBrowser):
     """Open url in browser"""
-
-    state["bookmark_folder"].open_urls()
+    if isinstance(state["bookmark_folder"], Folder):
+        state["bookmark_folder"].open_urls()
         
 
