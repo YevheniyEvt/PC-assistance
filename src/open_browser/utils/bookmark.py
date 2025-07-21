@@ -191,6 +191,33 @@ class BookmarksChrome(BookmarksABC, BookmarksBase):
             bookmarks_file_path = os.path.join(os.environ["LOCALAPPDATA"], "Google", "Chrome", "User Data", "Default", "Bookmarks")
             return bookmarks_file_path
 
+class BookmarksEdge(BookmarksABC, BookmarksBase):
+    """Open Chrome browser bookmarks"""
+
+    @property
+    def bookmarks_file_path(self) ->str:
+        if sys.platform[:3] == "win":
+            bookmarks_file_path = os.path.join(os.environ["LOCALAPPDATA"], "Microsoft", "Edge", "User Data", "Default", "Bookmarks")
+            return bookmarks_file_path
+        
+class BookmarksOpera(BookmarksABC, BookmarksBase):
+    """Open Chrome browser bookmarks"""
+
+    @property
+    def bookmarks_file_path(self) ->str:
+        if sys.platform[:3] == "win":
+            bookmarks_file_path = os.path.join(os.environ["LOCALAPPDATA"], "Opera Software", "Opera Developer", "User Data", "Default", "Bookmarks")
+            return bookmarks_file_path
+
+class BookmarksMozilla(BookmarksABC, BookmarksBase):
+    """Open Chrome browser bookmarks"""
+
+    @property
+    def bookmarks_file_path(self) ->str:
+        if sys.platform[:3] == "win":
+            bookmarks_file_path = os.path.join(os.environ["LOCALAPPDATA"], "Mozilla", "Firefox", "User Data", "Default", "Bookmarks")
+            return bookmarks_file_path
+        
 
 class Bookmarks(BookmarksBase):
     """If have bookmark file pass the path to it.
@@ -207,5 +234,11 @@ class Bookmarks(BookmarksBase):
         if path is not None:
             return super().__new__(cls)
 
-        if browser.lower() == 'chrome':
+        elif browser.lower() == 'chrome':
             return BookmarksChrome()
+        elif browser.lower() == 'mozilla':
+            return BookmarksMozilla()
+        elif browser.lower() == 'opera':
+            return BookmarksOpera()
+        elif browser.lower() == 'edge':
+            return BookmarksEdge()
