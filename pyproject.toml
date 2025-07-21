@@ -11,7 +11,7 @@ dependencies = [
     "jupyter",
     "python-dotenv",
     "rich",
-    "langgraph-cli[inmem]"
+    "langgraph-cli[inmem]",
 ]
 
 [build-system]

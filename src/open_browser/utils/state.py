@@ -1,8 +1,8 @@
 from typing_extensions import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from langgraph.graph import MessagesState
-
+from open_browser.utils.bookmark import BookmarksChrome, Folder, Url
 
 class RouteRequest(BaseModel):
     categories: Literal["specific", "youtube", "bookmarks"] = Field(
@@ -10,11 +10,11 @@ class RouteRequest(BaseModel):
     )
     
     
-class WebBrowser(MessagesState):
+class WebBrowser(MessagesState):    
     categories_url: str
-    specific_url_name: str
+    specific_url: Url | None
     youtube_search: list[str]
-    bookmark_urls: list[str]
+    bookmark_folder: Folder | None
 
 
 class Youtube(BaseModel):
