@@ -26,8 +26,7 @@ def llm_call_router(state: StateAgent):
     llm = ChatOpenAI(model="o4-mini")
     router  = llm.with_structured_output(Router)
     sys_msg = [SystemMessage(content=SYSTEM_PROMPT + ROUTER_PROMPT)]
-    human_question = [state["messages"][-1]]
-    decision = router.invoke(sys_msg + human_question)
+    decision = router.invoke(sys_msg + state["messages"])
     return {"decision": decision.step}
 
 def route_decision(state: StateAgent) -> str:

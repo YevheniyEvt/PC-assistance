@@ -1,7 +1,5 @@
 import time
 import os
-import requests
-import webbrowser
 import logging
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
@@ -9,7 +7,6 @@ from langchain_core.messages import SystemMessage, AIMessage
 
 from open_browser.utils.state import WebBrowser, RouteRequest, SpecificUrl, Youtube, Bookmarks
 from open_browser.utils.prompt import ROUTE_REQUEST_PROMPT, CHOSE_SPECIFIC_URL, CREATE_SEARCH_FOR_YOUTUBE_PROMPT, FIND_FOLDER_NAME_PROMPT
-from open_browser.utils.tools import read_bookmark_file
 from open_browser.utils.bookmark import BookmarksChrome, Folder, Url
 
 
@@ -34,6 +31,8 @@ def categorize_request(state: WebBrowser) -> WebBrowser:
     sys_msg = SystemMessage(content=ROUTE_REQUEST_PROMPT.format(my_url_list=[url.name for url in MY_URL_NEW]))
     human_msg = state["messages"][-1]
     decision = llm.with_structured_output(RouteRequest).invoke([sys_msg, human_msg])
+    logging.basicConfig(level=logging.INFO)
+    logging.info(f"Decision in helper: {decision}")
     return {"categories_url": decision.categories}
 
 def route_decision(state: WebBrowser) -> str:
@@ -82,6 +81,8 @@ def open_specific_url(state: WebBrowser) -> WebBrowser:
             ai_msg = AIMessage(content=f"Your url: {url.url} doesn't work, check it")
             return {"messages": [ai_msg]}
     url.open_new()
+    ai_msg = AIMessage(content=f"Open url with name: {url.name}")
+    return {"messages": [ai_msg]}
     
     
 def create_youtube_search(state: WebBrowser) -> WebBrowser:
@@ -101,6 +102,8 @@ def open_youtube(state: WebBrowser):
     else:
         youtube_url.url += search
     youtube_url.open_new()
+    ai_msg = AIMessage(content=f"Open youtube with search: {' '.join(state['youtube_search'])}")
+    return {"messages": [ai_msg]}
 
 def get_bookmarks_url(state: WebBrowser) ->WebBrowser:
     """Find urls in bookmark folders"""
@@ -138,7 +141,11 @@ def bookmark_folder_exist(state: WebBrowser) ->str:
 
 def open_from_bookmarks(state: WebBrowser):
     """Open url in browser"""
+
     if isinstance(state["bookmark_folder"], Folder):
         state["bookmark_folder"].open_urls()
+    
+    ai_msg = AIMessage(content=f"Open urls from bookmark folder: {state["bookmark_folder"].name}")
+    return {"messages": [ai_msg]}
         
 

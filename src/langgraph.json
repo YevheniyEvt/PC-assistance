@@ -2,7 +2,8 @@
   "dockerfile_lines": [],
   "graphs": {
     "developer_chatbot": "./developer_chatbot/chatbot.py:graph",
-    "open_browser": "./open_browser/chatbot.py:graph"
+    "open_browser": "./open_browser/chatbot.py:graph",
+    "personal_helper": "./personal_helper/chatbot.py:graph"
   },
   "env": ".env",
   "python_version": "3.11",
