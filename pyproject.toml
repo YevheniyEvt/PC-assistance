@@ -25,6 +25,7 @@ packages = [
     "developer_chatbot",
     "open_browser",
     "personal_helper",
+    "run_program",
     ]
 
 [tool.setuptools.package-dir]
@@ -32,6 +33,7 @@ packages = [
 "developer_chatbot" = "src/developer_chatbot"
 "open_browser" = "src/open_browser"
 "personal_helper" = "src/personal_helper"
+"run_program" = "src/run_program"
 
 [tool.setuptools.package-data]
 "*" = ["py.typed"]

@@ -23,7 +23,7 @@ def programming_answer(state: StateAgent):
 def llm_call_router(state: StateAgent):
     """Route the input to the appropriate node"""
     
-    llm = ChatOpenAI(model="o4-mini")
+    llm = ChatOpenAI(model="o3-mini")
     router  = llm.with_structured_output(Router)
     sys_msg = [SystemMessage(content=SYSTEM_PROMPT + ROUTER_PROMPT)]
     decision = router.invoke(sys_msg + state["messages"])

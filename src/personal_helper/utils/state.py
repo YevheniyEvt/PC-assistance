@@ -5,7 +5,7 @@ from langgraph.graph import MessagesState
 
 
 class RouteRequest(BaseModel):
-    step: Literal["answer", "browser", "programming"] = Field(
+    step: Literal["answer", "browser", "programming", "run_program"] = Field(
         description="Decide what is next step"
     )
 

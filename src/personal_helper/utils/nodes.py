@@ -14,7 +14,6 @@ def categorize_request(state: Helper) -> Helper:
 
     sys_msg = SystemMessage(content=ROUTE_REQUEST_PROMPT)
     decision = llm.with_structured_output(RouteRequest).invoke([sys_msg] + state["messages"])
-    logging.basicConfig(level=logging.INFO)
     logging.info(f"Decision in helper: {decision}")
     return {"step": decision.step}
 
@@ -27,6 +26,8 @@ def route_decision(state: Helper) -> str:
         return "browser_helper"
     elif state["step"] == "programming":
         return "developer_helper"
+    elif state["step"] == "run_program":
+        return "run_program"
     
 def standard_answer(state: Helper) ->Helper:
     """Answer for users request"""

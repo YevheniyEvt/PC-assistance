@@ -4,6 +4,7 @@ from personal_helper.chatbot import graph
 import logging
 
 load_dotenv()
+logging.basicConfig(level=logging.INFO)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
